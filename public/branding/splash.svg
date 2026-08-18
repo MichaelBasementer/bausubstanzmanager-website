@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 960" width="540" height="960">
+  <defs>
+    <style>text { font-family: Arial, Helvetica, sans-serif; font-weight: 700; }</style>
+  </defs>
+  <rect width="540" height="960" fill="#F4F1FE"/>
+
+  <!-- B: fixed at baseline (168, 322) -->
+  <text x="168" y="322" font-size="118" fill="#1E1742">B</text>
+
+  <!-- S: base at (168,486); offset starts at (+88,-164), arcs to (0,0) -->
+  <g>
+    <animateTransform attributeName="transform" type="translate"
+      values="88,-164; 88,-164; 0,0; 0,0"
+      keyTimes="0; 0.20; 0.54; 1"
+      calcMode="spline" keySplines="0 0 1 1; 0.2 0 0.2 1; 0 0 1 1"
+      dur="4s" repeatCount="indefinite" additive="replace"/>
+    <text x="168" y="486" font-size="118" fill="#1E1742">S</text>
+  </g>
+
+  <!-- M: base at (168,650); offset starts at (+168,-328), arcs to (0,0) -->
+  <g>
+    <animateTransform attributeName="transform" type="translate"
+      values="168,-328; 168,-328; 0,0; 0,0"
+      keyTimes="0; 0.20; 0.58; 1"
+      calcMode="spline" keySplines="0 0 1 1; 0.2 0 0.2 1; 0 0 1 1"
+      dur="4s" repeatCount="indefinite" additive="replace"/>
+    <text x="168" y="650" font-size="118" fill="#1E1742">M</text>
+  </g>
+
+  <!-- Small words – fade + drop in -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;0;1;1"
+      keyTimes="0; 0.47; 0.58; 0.68; 1"
+      calcMode="spline" keySplines="0 0 1 1; 0 0 1 1; 0.2 0 0.4 1; 0 0 1 1"
+      dur="4s" repeatCount="indefinite"/>
+    <g transform="translate(0,8)">
+      <animateTransform attributeName="transform" type="translate"
+        values="0,8; 0,8; 0,8; 0,0; 0,0"
+        keyTimes="0; 0.47; 0.58; 0.68; 1"
+        calcMode="spline" keySplines="0 0 1 1; 0 0 1 1; 0.2 0 0.4 1; 0 0 1 1"
+        dur="4s" repeatCount="indefinite" additive="replace"/>
+      <text x="258" y="322" font-size="66" fill="#1E1742">au</text>
+      <text x="258" y="486" font-size="66" fill="#1E1742">ubstanz</text>
+      <text x="258" y="650" font-size="66" fill="#1E1742">anager</text>
+    </g>
+  </g>
+
+  <!-- Subtitle – fade in -->
+  <text x="270" y="727" text-anchor="middle" dominant-baseline="middle"
+        font-size="15" letter-spacing="2" fill="#6C6791" opacity="0">
+    TECHNISCHE PROBEN- UND BEFUNDDOKUMENTATION
+    <animate attributeName="opacity" values="0;0;0;1;1"
+      keyTimes="0; 0.62; 0.68; 0.79; 1"
+      calcMode="spline" keySplines="0 0 1 1; 0 0 1 1; 0.2 0 0.4 1; 0 0 1 1"
+      dur="4s" repeatCount="indefinite"/>
+  </text>
+</svg>

@@ -1,0 +1,133 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { translations } from "../../config/i18n.config";
+import { features } from "../../config/features.config";
+
+const lang = "de" as const;
+const t = translations[lang];
+const mobile = features.filter((f) => f.category === "mobile" || f.category === "both");
+const desktop = features.filter((f) => f.category === "desktop" || f.category === "both");
+---
+
+<Layout lang={lang} title={t.nav.app}>
+
+  <!-- ══ APP HERO ══ -->
+  <section class="app-hero">
+    <div class="container-custom">
+      <span class="section-eyebrow">BSM Suite</span>
+      <h1 class="section-title">{t.app.title}</h1>
+      <p class="section-lead">
+        Mobile App für Android und Desktop-Software für Windows – alles zusammen für professionelle Schadstofferfassung.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ MOBILE APP ══ -->
+  <section class="app-section" id="mobile">
+    <div class="container-custom">
+      <div class="app-split">
+        <div class="app-split-text">
+          <span class="app-platform-tag android">Android</span>
+          <h2>{t.app.mobileTab}</h2>
+          <p>{t.app.mobileIntro}</p>
+          <div class="feature-anchors">
+            {mobile.map((f) => (
+              <div id={`feature-${f.id}`} class="feature-anchor-card scroll-reveal">
+                <span class="feature-icon-lg">{f.icon}</span>
+                <div>
+                  <h3>{f.title}</h3>
+                  <p>{f.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="app-screenshots-mobile">
+          <div class="screenshot-stack">
+            <img src="/screenshots/mobile-app-placeholder.svg" alt="BSM Mobile – Projektübersicht" class="ss-main"/>
+            <img src="/screenshots/mobile-app-placeholder.svg" alt="BSM Mobile – Marker setzen" class="ss-back-l"/>
+            <img src="/screenshots/mobile-app-placeholder.svg" alt="BSM Mobile – Probe dokumentieren" class="ss-back-r"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ DESKTOP APP ══ -->
+  <section class="app-section app-section-alt" id="desktop">
+    <div class="container-custom">
+      <div class="app-split app-split-reverse">
+        <div class="app-split-text">
+          <span class="app-platform-tag windows">Windows</span>
+          <h2>{t.app.desktopTab}</h2>
+          <p>{t.app.desktopIntro}</p>
+          <div class="feature-anchors">
+            {desktop.map((f) => (
+              <div id={`feature-${f.id}`} class="feature-anchor-card scroll-reveal">
+                <span class="feature-icon-lg">{f.icon}</span>
+                <div>
+                  <h3>{f.title}</h3>
+                  <p>{f.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="app-screenshots-desktop">
+          <div class="screen-mockup-app">
+            <div class="screen-bar">
+              <span class="screen-dot"></span><span class="screen-dot"></span><span class="screen-dot"></span>
+              <span style="font-family:monospace;font-size:0.72rem;color:rgba(255,255,255,0.4);margin-left:0.6rem;">BSM Desktop Manager</span>
+            </div>
+            <img src="/screenshots/desktop-app-placeholder.svg" alt="BSM Desktop – Probenübersicht" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .app-hero { background: #1e1742; padding: 5rem 0 3.5rem; color: #fff; }
+  .app-hero .section-eyebrow { color: rgba(196,181,244,0.75); }
+  .app-hero .section-title { color: #fff; margin: 0.5rem 0 1rem; }
+  .app-hero .section-lead { color: rgba(196,181,244,0.8); max-width: 680px; }
+  .app-section { padding: 5rem 0; background: #fff; }
+  .app-section-alt { background: #f4f1fe; }
+  .app-split { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .app-split-reverse { direction: rtl; }
+  .app-split-reverse > * { direction: ltr; }
+  @media (max-width: 880px) { .app-split { grid-template-columns: 1fr; gap: 2.5rem; } .app-split-reverse { direction: ltr; } }
+  .app-split-text h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 800; color: #1e1742; margin: 0.75rem 0 0.75rem; }
+  .app-split-text p { color: #6c6791; line-height: 1.7; margin-bottom: 1.5rem; }
+  .app-platform-tag { display: inline-block; padding: 0.25rem 0.85rem; border-radius: 99px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .app-platform-tag.android { background: rgba(61,220,132,0.15); color: #25a96a; }
+  .app-platform-tag.windows { background: rgba(0,120,212,0.12); color: #0078d4; }
+  .feature-anchors { display: flex; flex-direction: column; gap: 1rem; }
+  .feature-anchor-card { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; border-radius: 12px; border: 1px solid rgba(81,43,212,0.09); background: #faf9ff; transition: all 0.2s; }
+  .feature-anchor-card:hover { border-color: rgba(81,43,212,0.25); background: #f0ecff; }
+  .feature-anchor-card h3 { font-size: 0.9rem; font-weight: 700; color: #1e1742; margin: 0 0 0.2rem; }
+  .feature-anchor-card p { font-size: 0.82rem; color: #6c6791; margin: 0; line-height: 1.5; }
+  .feature-icon-lg { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .screenshot-stack { position: relative; padding: 1.5rem 2.5rem 1.5rem 1.5rem; }
+  .ss-main { width: 70%; border-radius: 20px; box-shadow: 0 32px 80px rgba(30,23,66,0.3); position: relative; z-index: 2; display: block; margin: 0 auto; }
+  .ss-back-l { width: 50%; position: absolute; left: 0; top: 20%; border-radius: 16px; box-shadow: 0 16px 40px rgba(30,23,66,0.2); opacity: 0.75; z-index: 1; }
+  .ss-back-r { width: 50%; position: absolute; right: 0; bottom: 10%; border-radius: 16px; box-shadow: 0 16px 40px rgba(30,23,66,0.2); opacity: 0.75; z-index: 1; }
+  .screen-mockup-app { border-radius: 16px; overflow: hidden; box-shadow: 0 24px 80px rgba(81,43,212,0.2); border: 1px solid rgba(81,43,212,0.14); }
+  .screen-bar { background: #1e1742; padding: 0.65rem 1rem; display: flex; align-items: center; gap: 0.45rem; }
+  .screen-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.18); display: inline-block; }
+  .screen-mockup-app img { width: 100%; display: block; }
+  .scroll-reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .scroll-reveal.visible { opacity: 1; transform: none; }
+</style>
+
+<script>
+  const obs = new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.scroll-reveal').forEach((el) => obs.observe(el));
+</script>
+
+

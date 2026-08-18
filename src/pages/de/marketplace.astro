@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { translations } from "../../config/i18n.config";
+import { marketplaceProducts } from "../../config/marketplace.config";
+
+const lang = "de" as const;
+const t = translations[lang];
+---
+
+<Layout lang={lang} title={t.nav.marketplace}>
+  <section class="section">
+    <div class="container-custom">
+      <h1>{t.marketplace.title}</h1>
+      <p>Aktuell als Informationsseite angelegt. Preise und Checkout folgen später.</p>
+      <div class="grid-auto" style="margin-top: 2rem;">
+        {marketplaceProducts.map((product) => (
+          <article class="card">
+            <img src={product.image} alt={product.name} />
+            <h3 style="margin-top:1rem;">{product.name}</h3>
+            <p>{product.description}</p>
+            <p><strong>{product.pricing}</strong></p>
+            <ul>
+              {product.features.map((f) => <li>• {f}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

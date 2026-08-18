@@ -1,0 +1,40 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { translations } from "../../config/i18n.config";
+import { team } from "../../config/team.config";
+import { isValidLang } from "../../lib/lang";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLang(lang)) {
+  return Astro.redirect("/de/");
+}
+
+const t = translations[lang];
+---
+
+<Layout lang={lang} title={t.nav.team}>
+  <section class="section">
+    <div class="container-custom">
+      <h1>{t.team.title}</h1>
+      <p>{t.team.intro}</p>
+      <div class="grid-auto" style="margin-top: 2rem;">
+        {team.map((member) => (
+          <article class="card">
+            <img src={member.photo} alt={member.name} style="width: 120px; height: 120px; object-fit: cover; border-radius: 999px;" />
+            <h3 style="margin-top: 0.8rem;">{member.name}</h3>
+            <p><strong>{member.title}</strong></p>
+            <p>{member.bio}</p>
+            <p>
+              {member.email && <a href={`mailto:${member.email}`}>{member.email}</a>}
+            </p>
+          </article>
+        ))}
+      </div>
+      <p style="margin-top:2rem; color:#666;">{lang === "de" ? "Diese Inhalte sind absichtlich einfach änderbar über src/config/team.config.ts" : "This section is intentionally easy to edit via src/config/team.config.ts"}</p>
+    </div>
+  </section>
+</Layout>

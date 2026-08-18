@@ -1,0 +1,12 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import HomePageSections from "../../components/HomePageSections.astro";
+import { translations } from "../../config/i18n.config";
+
+const lang = "de" as const;
+const t = translations[lang];
+---
+
+<Layout lang={lang} title={t.nav.home}>
+  <HomePageSections lang={lang} isDE={true} />
+</Layout>

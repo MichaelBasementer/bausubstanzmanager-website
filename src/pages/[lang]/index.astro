@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import HomePageSections from "../../components/HomePageSections.astro";
+import { translations } from "../../config/i18n.config";
+import { isValidLang } from "../../lib/lang";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLang(lang)) {
+  return Astro.redirect("/de/");
+}
+
+const t = translations[lang];
+const isDE = lang === "de";
+---
+
+<Layout lang={lang} title={t.nav.home}>
+  <HomePageSections lang={lang} isDE={isDE} />
+</Layout>

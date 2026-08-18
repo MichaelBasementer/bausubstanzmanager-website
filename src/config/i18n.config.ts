@@ -1,0 +1,128 @@
+export const i18n = {
+  defaultLanguage: "de",
+  languages: {
+    de: "Deutsch",
+    en: "English",
+  },
+};
+
+export const translations = {
+  de: {
+    nav: {
+      home: "Startseite",
+      app: "App",
+      team: "Team",
+      roadmap: "Roadmap",
+      marketplace: "Shop",
+      impressum: "Impressum",
+    },
+    home: {
+      headline: "Im Feld erfassen. Im Büro fertig sein.",
+      subheadline: "BSM verbindet Android-Tablet und Windows-Desktop — von der Probe auf der Baustelle bis zum Laborbericht im Büro.",
+      cta: "App entdecken",
+      ctaSecondary: "Roadmap ansehen",
+      statsTitle: "Vertraut von Profis",
+      demoHint: "Klicke auf einen Raum, um einen Marker zu setzen",
+      demoSync: "Zu Desktop synchronisieren",
+      demoReset: "Zurücksetzen",
+      demoProbeList: "Erfasste Objekte",
+      demoEmpty: "Noch keine Marker gesetzt",
+    },
+    app: {
+      title: "BSM App & Desktop",
+      mobileTab: "Mobile App",
+      desktopTab: "Desktop Manager",
+      mobileIntro: "Feldarbeit-App für Android",
+      desktopIntro: "Umfassende Projektmanagement und Analyse für Desktop",
+    },
+    team: {
+      title: "Unser Team",
+      intro: "Die Personen hinter BSM",
+    },
+    roadmap: {
+      title: "Roadmap",
+      intro: "Hier siehst du, was als Nächstes kommt.",
+      planned: "Geplant",
+      inProgress: "In Entwicklung",
+      completed: "Fertig",
+      vote: "Abstimmen",
+      votes: "Stimmen",
+    },
+    marketplace: {
+      title: "BSM Shop",
+      intro: "Wähle deine Lösung",
+      price: "Preis wird in Kürze bekannt gegeben",
+    },
+    impressum: {
+      title: "Impressum & Rechtliches",
+      legalInfo: "Rechtliche Informationen",
+      privacy: "Datenschutzerklärung",
+      terms: "Nutzungsbedingungen",
+    },
+    footer: {
+      copyright: "© 2026 BSM BausubstanzManager. Alle Rechte vorbehalten.",
+      contact: "Kontakt",
+      privacy: "Datenschutz",
+      terms: "Impressum",
+    },
+  },
+  en: {
+    nav: {
+      home: "Home",
+      app: "App",
+      team: "Team",
+      roadmap: "Roadmap",
+      marketplace: "Shop",
+      impressum: "Legal",
+    },
+    home: {
+      headline: "Capture in the field. Finish in the office.",
+      subheadline: "BSM connects Android tablet and Windows desktop — from sample collection on site to lab report in the office.",
+      cta: "Explore the App",
+      ctaSecondary: "View Roadmap",
+      statsTitle: "Trusted by Professionals",
+      demoHint: "Click a room to place a marker",
+      demoSync: "Sync to Desktop",
+      demoReset: "Reset",
+      demoProbeList: "Captured Objects",
+      demoEmpty: "No markers placed yet",
+    },
+    app: {
+      title: "BSM App & Desktop",
+      mobileTab: "Mobile App",
+      desktopTab: "Desktop Manager",
+      mobileIntro: "Fieldwork app for Android",
+      desktopIntro: "Comprehensive project management and analysis for desktop",
+    },
+    team: {
+      title: "Our Team",
+      intro: "The people behind BSM",
+    },
+    roadmap: {
+      title: "Roadmap",
+      intro: "Here's what's coming next.",
+      planned: "Planned",
+      inProgress: "In Progress",
+      completed: "Completed",
+      vote: "Vote",
+      votes: "Votes",
+    },
+    marketplace: {
+      title: "BSM Shop",
+      intro: "Choose your solution",
+      price: "Pricing coming soon",
+    },
+    impressum: {
+      title: "Legal & Imprint",
+      legalInfo: "Legal Information",
+      privacy: "Privacy Policy",
+      terms: "Terms of Service",
+    },
+    footer: {
+      copyright: "© 2026 BSM BausubstanzManager. All rights reserved.",
+      contact: "Contact",
+      privacy: "Privacy",
+      terms: "Legal",
+    },
+  },
+};

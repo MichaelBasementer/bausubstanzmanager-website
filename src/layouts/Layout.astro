@@ -1,0 +1,133 @@
+---
+import { i18n, translations } from "../config/i18n.config";
+import { supportedLangs, type SiteLang } from "../lib/lang";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  lang: SiteLang;
+}
+
+const { title, lang } = Astro.props as Props;
+const t = translations[lang];
+const currentPath = Astro.url.pathname;
+const pathWithoutLang = currentPath.replace(/^\/(?:de|en)(?=\/|$)/, "") || "/";
+const getLangHref = (targetLang: SiteLang) => `/${targetLang}${pathWithoutLang === "/" ? "/" : pathWithoutLang}`;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="BSM BausubstanzManager – Die moderne Baubestands-App" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#512BD4" />
+    <meta property="og:image" content="/branding/social-avatar.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} – BSM</title>
+  </head>
+  <body>
+    <header class="bsm-header">
+      <nav class="container-custom bsm-nav">
+        <!-- BSM Wordmark -->
+        <a href={`/${lang}/`} class="bsm-wordmark" aria-label="BSM BausubstanzManager Startseite">
+          <span class="bsm-logo-text">BSM</span>
+          <span class="bsm-logo-sub">BausubstanzManager</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="bsm-nav-links">
+          <a href={`/${lang}/`}>{t.nav.home}</a>
+          <a href={`/${lang}/app`}>{t.nav.app}</a>
+          <a href={`/${lang}/team`}>{t.nav.team}</a>
+          <a href={`/${lang}/roadmap`}>{t.nav.roadmap}</a>
+          <a href={`/${lang}/marketplace`}>{t.nav.marketplace}</a>
+          <a href={`/${lang}/impressum`}>{t.nav.impressum}</a>
+        </div>
+
+        <div class="bsm-nav-actions">
+          <div class="bsm-lang-switcher" aria-label={lang === "de" ? "Sprachauswahl" : "Language selector"}>
+            {supportedLangs.map((entryLang) => {
+              const isActive = entryLang === lang;
+              return (
+                <a
+                  href={getLangHref(entryLang)}
+                  class:list={["bsm-lang-btn", isActive && "is-active"]}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {i18n.languages[entryLang]}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="bsm-footer">
+      <div class="container-custom">
+        <div class="bsm-footer-grid">
+          <div class="bsm-footer-brand">
+            <span class="bsm-footer-wordmark">BSM</span>
+            <p>{lang === "de" ? "Die moderne Baubestands-App für Feldarbeit und Dekonstruktionsplanung." : "The modern building assessment app for fieldwork and deconstruction planning."}</p>
+          </div>
+          <div>
+            <h4>{lang === "de" ? "Seiten" : "Pages"}</h4>
+            <ul>
+              <li><a href={`/${lang}/`}>{t.nav.home}</a></li>
+              <li><a href={`/${lang}/app`}>{t.nav.app}</a></li>
+              <li><a href={`/${lang}/team`}>{t.nav.team}</a></li>
+              <li><a href={`/${lang}/roadmap`}>{t.nav.roadmap}</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>{lang === "de" ? "Rechtliches" : "Legal"}</h4>
+            <ul>
+              <li><a href={`/${lang}/impressum`}>{t.nav.impressum}</a></li>
+              <li><a href="#">{t.footer.privacy}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="bsm-footer-bottom">
+          <p>{t.footer.copyright}</p>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      /* ── Header ─── */
+      .bsm-header { position: sticky; top: 0; z-index: 100; background: rgba(15,12,36,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(81,43,212,0.25); }
+      .bsm-nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+      .bsm-wordmark { display: flex; align-items: baseline; gap: 0.55rem; text-decoration: none; }
+      .bsm-logo-text { font-family: 'Inter', sans-serif; font-size: 1.55rem; font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; }
+      .bsm-logo-sub { font-size: 0.72rem; font-weight: 500; color: rgba(196,181,244,0.7); letter-spacing: 0.04em; text-transform: uppercase; display: none; }
+      @media (min-width: 900px) { .bsm-logo-sub { display: inline; } }
+      .bsm-nav-links { display: none; gap: 0.25rem; }
+      @media (min-width: 768px) { .bsm-nav-links { display: flex; } }
+      .bsm-nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.88rem; font-weight: 500; padding: 0.45rem 0.75rem; border-radius: 6px; transition: all 0.18s; }
+      .bsm-nav-links a:hover { color: #fff; background: rgba(81,43,212,0.25); }
+      .bsm-nav-actions { display: flex; align-items: center; gap: 0.75rem; }
+      .bsm-lang-switcher { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem; border-radius: 999px; background: rgba(81,43,212,0.16); border: 1px solid rgba(124,92,232,0.22); }
+      .bsm-lang-btn { font-size: 0.76rem; font-weight: 700; padding: 0.42rem 0.9rem; border-radius: 999px; color: rgba(255,255,255,0.72); text-decoration: none; letter-spacing: 0.02em; transition: all 0.2s ease; }
+      .bsm-lang-btn.is-active { background: linear-gradient(135deg, #7c5ce8, #512bd4); color: #fff; box-shadow: 0 0 18px rgba(124,92,232,0.5); }
+      .bsm-lang-btn:hover { color: #fff; background: rgba(124,92,232,0.32); }
+
+      /* ── Footer ─── */
+      .bsm-footer { background: #0f0c24; color: rgba(255,255,255,0.75); padding: 4rem 0 2rem; margin-top: 6rem; border-top: 1px solid rgba(81,43,212,0.2); }
+      .bsm-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+      @media (max-width: 768px) { .bsm-footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
+      .bsm-footer-brand p { font-size: 0.88rem; line-height: 1.65; color: rgba(255,255,255,0.55); margin-top: 0.75rem; max-width: 300px; }
+      .bsm-footer-wordmark { font-family: 'Inter', sans-serif; font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: -0.04em; display: block; }
+      .bsm-footer h4 { color: rgba(255,255,255,0.9); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 1rem; }
+      .bsm-footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+      .bsm-footer a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.88rem; transition: color 0.18s; }
+      .bsm-footer a:hover { color: #c4b5f4; }
+      .bsm-footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; text-align: center; font-size: 0.82rem; color: rgba(255,255,255,0.35); }
+    </style>
+  </body>
+</html>

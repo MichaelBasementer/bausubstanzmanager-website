@@ -1,0 +1,43 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { translations } from "../../config/i18n.config";
+import { marketplaceProducts } from "../../config/marketplace.config";
+import { isValidLang } from "../../lib/lang";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLang(lang)) {
+  return Astro.redirect("/de/");
+}
+
+const t = translations[lang];
+---
+
+<Layout lang={lang} title={t.nav.marketplace}>
+  <section class="section">
+    <div class="container-custom">
+      <h1>{t.marketplace.title}</h1>
+      <p>{lang === "de" ? "Aktuell als Informationsseite angelegt. Preise und Checkout folgen später." : "Currently built as an information page. Pricing and checkout will be added later."}</p>
+
+      <div class="grid-auto" style="margin-top: 2rem;">
+        {marketplaceProducts.map((product) => (
+          <article class="card">
+            <img src={product.image} alt={product.name} />
+            <h3 style="margin-top:1rem;">{product.name}</h3>
+            <p>{product.description}</p>
+            <p><strong>{product.pricing}</strong></p>
+            <ul>
+              {product.features.map((f) => <li>• {f}</li>)}
+            </ul>
+            <div style="margin-top:1rem;">
+              <a class="btn btn-primary" href={`mailto:info@bsm-app.de?subject=${encodeURIComponent(product.name)}`}>{product.cta}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { translations } from "../../config/i18n.config";
+
+const lang = "de" as const;
+const t = translations[lang];
+---
+
+<Layout lang={lang} title={t.nav.impressum}>
+  <section class="section">
+    <div class="container-custom" style="max-width: 850px;">
+      <h1>{t.impressum.title}</h1>
+      <div class="card">
+        <h3>Angaben gemäß § 5 TMG</h3>
+        <p><strong>Name:</strong> [Bitte ergänzen]</p>
+        <p><strong>Adresse:</strong> [Bitte ergänzen]</p>
+        <p><strong>E-Mail:</strong> info@bsm-app.de</p>
+      </div>
+    </div>
+  </section>
+</Layout>

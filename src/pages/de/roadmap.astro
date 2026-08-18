@@ -1,0 +1,73 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { translations } from "../../config/i18n.config";
+import { roadmapFeatures } from "../../config/roadmap.config";
+
+const lang = "de" as const;
+const t = translations[lang];
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL ?? "";
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+---
+
+<Layout lang={lang} title={t.nav.roadmap}>
+  <section class="section">
+    <div class="container-custom" id="roadmap-root" data-supabase-url={supabaseUrl} data-supabase-anon={supabaseAnonKey}>
+      <h1>{t.roadmap.title}</h1>
+      <p>{t.roadmap.intro}</p>
+      <div class="grid-auto" style="margin-top: 2rem;">
+        {roadmapFeatures.map((item) => (
+          <article class="card" data-feature-id={item.id}>
+            <p style="margin:0; font-size: 0.9rem; color:#666;">{item.category} · {item.estimatedQuarter}</p>
+            <h3 style="font-size: 1.2rem;">{item.title}</h3>
+            <p>{item.description}</p>
+            <p><strong>Status:</strong> {item.status}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="card" style="margin-top: 2rem;">
+        <h3>Feature vorschlagen</h3>
+        <p>Vorschläge werden direkt in Supabase gespeichert (falls konfiguriert).</p>
+        <form id="suggestion-form">
+          <input id="suggestion-title" type="text" placeholder="Feature-Titel" required style="width:100%;padding:0.7rem;margin-bottom:0.8rem;border:1px solid #ddd;border-radius:8px;" />
+          <textarea id="suggestion-description" placeholder="Beschreibung" rows="4" required style="width:100%;padding:0.7rem;border:1px solid #ddd;border-radius:8px;"></textarea>
+          <div style="margin-top:0.8rem;display:flex;gap:0.8rem;align-items:center;">
+            <button class="btn btn-secondary" type="submit">Vorschlag absenden</button>
+            <span id="suggestion-status" style="font-size:0.95rem;color:#6C6791;"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseAnonKey }}>
+    import { createClient } from "@supabase/supabase-js";
+
+    const root = document.getElementById("roadmap-root");
+    const hasSupabase = Boolean(supabaseUrl && supabaseAnonKey);
+    const supabase = hasSupabase ? createClient(supabaseUrl, supabaseAnonKey) : null;
+
+    const form = document.getElementById("suggestion-form");
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const title = document.getElementById("suggestion-title")?.value?.trim();
+      const description = document.getElementById("suggestion-description")?.value?.trim();
+      const statusEl = document.getElementById("suggestion-status");
+      if (!title || !description || !statusEl) return;
+
+      if (!supabase) {
+        statusEl.textContent = "Gespeichert als Platzhalter (Supabase nicht konfiguriert).";
+        form.reset();
+        return;
+      }
+
+      const { error } = await supabase
+        .from("feature_suggestions")
+        .insert({ title, description, language: "de" });
+
+      statusEl.textContent = error ? "Fehler beim Speichern." : "Vorschlag gespeichert. Danke!";
+      if (!error) form.reset();
+    });
+
+  </script>
+</Layout>

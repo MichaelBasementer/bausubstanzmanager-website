@@ -1,0 +1,88 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { translations } from "../../config/i18n.config";
+import { roadmapFeatures } from "../../config/roadmap.config";
+import { isValidLang } from "../../lib/lang";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLang(lang)) {
+  return Astro.redirect("/de/");
+}
+
+const t = translations[lang];
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL ?? "";
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+---
+
+<Layout lang={lang} title={t.nav.roadmap}>
+  <section class="section">
+    <div class="container-custom" id="roadmap-root" data-supabase-url={supabaseUrl} data-supabase-anon={supabaseAnonKey}>
+      <h1>{t.roadmap.title}</h1>
+      <p>{t.roadmap.intro}</p>
+      <div class="grid-auto" style="margin-top: 2rem;">
+        {roadmapFeatures.map((item) => (
+          <article class="card" data-feature-id={item.id}>
+            <p style="margin:0; font-size: 0.9rem; color:#666;">{item.category} · {item.estimatedQuarter}</p>
+            <h3 style="font-size: 1.2rem;">{item.title}</h3>
+            <p>{item.description}</p>
+            <p><strong>Status:</strong> {item.status}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="card" style="margin-top: 2rem;">
+        <h3>{lang === "de" ? "Feature vorschlagen" : "Suggest a feature"}</h3>
+        <p>{lang === "de" ? "Vorschläge werden direkt in Supabase gespeichert (falls konfiguriert)." : "Suggestions are stored in Supabase directly (if configured)."}</p>
+        <form id="suggestion-form">
+          <input id="suggestion-title" type="text" placeholder={lang === "de" ? "Feature-Titel" : "Feature title"} required style="width:100%;padding:0.7rem;margin-bottom:0.8rem;border:1px solid #ddd;border-radius:8px;" />
+          <textarea id="suggestion-description" placeholder={lang === "de" ? "Beschreibung" : "Description"} rows="4" required style="width:100%;padding:0.7rem;border:1px solid #ddd;border-radius:8px;"></textarea>
+          <div style="margin-top:0.8rem;display:flex;gap:0.8rem;align-items:center;">
+            <button class="btn btn-secondary" type="submit">{lang === "de" ? "Vorschlag absenden" : "Submit suggestion"}</button>
+            <span id="suggestion-status" style="font-size:0.95rem;color:#6C6791;"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" define:vars={{ supabaseUrl, supabaseAnonKey, lang }}>
+    import { createClient } from "@supabase/supabase-js";
+
+    const root = document.getElementById("roadmap-root");
+    const hasSupabase = Boolean(supabaseUrl && supabaseAnonKey);
+    const supabase = hasSupabase ? createClient(supabaseUrl, supabaseAnonKey) : null;
+
+    const form = document.getElementById("suggestion-form");
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const titleInput = document.getElementById("suggestion-title");
+      const descInput = document.getElementById("suggestion-description");
+      const statusEl = document.getElementById("suggestion-status");
+      const title = titleInput?.value?.trim();
+      const description = descInput?.value?.trim();
+      if (!title || !description || !statusEl) return;
+
+      if (!supabase) {
+        statusEl.textContent = lang === "de"
+          ? "Gespeichert als Platzhalter (Supabase nicht konfiguriert)."
+          : "Saved as placeholder (Supabase not configured).";
+        form.reset();
+        return;
+      }
+
+      const { error } = await supabase
+        .from("feature_suggestions")
+        .insert({ title, description, language: lang });
+
+      statusEl.textContent = error
+        ? (lang === "de" ? "Fehler beim Speichern." : "Failed to save.")
+        : (lang === "de" ? "Vorschlag gespeichert. Danke!" : "Suggestion saved. Thank you!");
+      if (!error) form.reset();
+    });
+
+  </script>
+</Layout>
